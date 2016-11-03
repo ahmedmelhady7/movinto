@@ -20,7 +20,8 @@ gem 'devise'
 gem 'omniauth-facebook'
 #bootstrap
 gem 'bootstrap-sass', '~> 3.3.6'
-
+#rails admin
+gem 'rails_admin', '~> 1.0'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
