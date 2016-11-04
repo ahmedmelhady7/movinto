@@ -15,7 +15,14 @@
 
 <p>
   <strong>Average rating:</strong>
-  <%= @movie.average_rating %>
+  <span class="average_rating">
+    <%= @movie.average_rating %>
+  </span>
+</p>
+
+<p>
+  <strong>Director:</strong>
+  <%= @movie.director.name %>
 </p>
 
 <p>

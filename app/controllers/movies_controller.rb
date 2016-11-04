@@ -23,6 +23,14 @@ class MoviesController < ApplicationController
   def edit
   end
 
+  def featured_movies
+    @movies = Movie.where('is_featured = ?', true)
+    if @movies.size==0
+      flash[:alert] = "No Featured movies right now."
+      redirect_to root_path
+    end
+  end
+  
   # POST /movies
   # POST /movies.json
   def create

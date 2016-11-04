@@ -16,10 +16,8 @@ class ReviewsController < ApplicationController
     @review = @movie.reviews.build(review_params)
     @review.user_id = current_user.id
     if @review.save
-      puts "*************************#{@movie.average_rating}*************************"
       @movie.average_rating = @movie.reviews.average(:rating)
       @movie.save
-      puts "*************************#{@movie.average_rating}*************************"
       respond_to do |format|
         format.html {redirect_to root_path}
         format.js
@@ -46,6 +44,8 @@ class ReviewsController < ApplicationController
     @review = @movie.reviews.find(params[:id])
     if @review.user_id==current_user.id 
       @review.destroy
+      @movie.average_rating = @movie.reviews.average(:rating)
+      @movie.save
       respond_to do |format|
         format.html {redirect_to root_path}
         format.js

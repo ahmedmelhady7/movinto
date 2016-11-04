@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   # root 'welcome#index'
   # root 'application#index'
   root 'movies#index'
+  get 'featured_movies', to: 'movies#featured_movies'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

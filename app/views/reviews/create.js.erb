@@ -1,3 +1,4 @@
-$('.reviews-list').append("<%=j render @movie.reviews, movie: @movie, review: @review %>");
+$('.reviews-list').append("<%=j render 'reviews/review', movie: @movie, review: @review %>");
 $('.rating-field').val('');
 $('.content-field').val('');
+$('.average_rating').html('<%= @movie.average_rating %>');

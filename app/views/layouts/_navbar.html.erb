@@ -13,6 +13,14 @@
     <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
         <% if user_signed_in? %>
+          <% if current_user.is_admin %>
+            <li>
+              <%= link_to "Admin Panel", rails_admin_path %>
+            </li>
+          <% end %>
+          <li>
+            <%= link_to "Featured Movies", featured_movies_path %>
+          </li>
           <li>
             <%= link_to "Logout", destroy_user_session_path, method: :delete %>
           </li>
