@@ -18,7 +18,26 @@
   <%= @movie.average_rating %>
 </p>
 
+<p>
+  <strong>Actors:</strong>
+  <ul>
+    <% @movie.actors.each do |actor| %>
+      <li><%= actor.name %></li>
+    <% end %>
+  </ul>
+</p>
+
+<p>
+  <strong>Genres:</strong>
+  <ul>
+    <% @movie.genres.each do |genre| %>
+      <li><%= genre.name %></li>
+    <% end %>
+  </ul>
+</p>
+
 <% if @movie.reviews %>
+  <p><strong>Reviews:</strong></p>
   <div class="reviews-list">
     <%= render @movie.reviews, movie: @movie %>
   </div>
