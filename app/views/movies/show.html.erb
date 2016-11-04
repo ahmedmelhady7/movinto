@@ -1,0 +1,32 @@
+<p>
+  <strong>Name:</strong>
+  <%= @movie.name %>
+</p>
+
+<p>
+  <strong>Is featured:</strong>
+  <%= @movie.is_featured %>
+</p>
+
+<p>
+  <strong>Released at:</strong>
+  <%= @movie.released_at %>
+</p>
+
+<p>
+  <strong>Average rating:</strong>
+  <%= @movie.average_rating %>
+</p>
+
+<% if @movie.reviews %>
+  <div class="reviews-list">
+    <%= render @movie.reviews, movie: @movie %>
+  </div>
+<% end %>
+
+<%= render 'reviews/form', movie: @movie %>
+<% if current_user.is_admin %>
+  <%= link_to 'Edit', edit_movie_path(@movie) %> |
+<% end %>
+<%= link_to 'Back', movies_path %>
+

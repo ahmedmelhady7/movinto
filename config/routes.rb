@@ -1,12 +1,18 @@
 Rails.application.routes.draw do
-  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  resources :movies do
+    resources :reviews
+  end
+  authenticate :user do
+    mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  end
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
-  root 'application#index'
+  # root 'application#index'
+  root 'movies#index'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

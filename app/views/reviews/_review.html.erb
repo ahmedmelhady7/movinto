@@ -1,0 +1,15 @@
+<% if review %>
+  <div class="user-name">
+    <%= review.user.email %>
+  </div>
+  <div class="comment-content">
+    <%= review.content %>
+    <%= review.rating %>
+  </div>
+  <% if review.user == current_user %>
+    <%= link_to movie_review_path(movie, review), method: :delete, data: { confirm: "Are you sure?" }, remote: true do %>
+      <span class="glyphicon glyphicon-remove delete-comment"></span>
+    <% end %>
+  <% end %>
+  <br/>
+<% end %>

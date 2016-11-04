@@ -6,14 +6,4 @@ class ApplicationController < ActionController::Base
   
   def index
   end
-  
-  def admin
-    if current_user.is_admin
-      @message = "you are a freaking ADMIN!"
-    else
-      flash[:error] = "you are not allowed"
-      redirect_to root_path
-    end
-  end
-  
 end

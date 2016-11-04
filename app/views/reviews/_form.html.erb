@@ -1,0 +1,13 @@
+<%= form_for([movie, movie.reviews.build], remote: true) do |f| %>
+  <div class="field">
+    <%= f.label :content %><br>
+    <%= f.text_area :content, class: "content-field" %>
+  </div>
+  <div class="field">
+    <%= f.label :rating %><br>
+    <%= f.number_field :rating, class: "rating-field" %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
