@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'users/wishlist'
+
   resources :movies do
     resources :reviews
   end
@@ -14,6 +16,9 @@ Rails.application.routes.draw do
   # root 'application#index'
   root 'movies#index'
   get 'featured_movies', to: 'movies#featured_movies'
+  get 'opening_this_week', to: 'movies#opening_this_week'
+  get 'wishlist', to: 'movies#wishlist'
+  post 'add_to_wishlist', to: 'movies#add_to_wishlist'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

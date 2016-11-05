@@ -1,11 +1,11 @@
 <%= form_for([movie, movie.reviews.build], remote: true) do |f| %>
   <div class="field">
     <%= f.label :content %><br>
-    <%= f.text_area :content, class: "content-field" %>
+    <%= f.text_area :content, class: "content-field", required: true %>
   </div>
   <div class="field">
     <%= f.label :rating %><br>
-    <%= f.number_field :rating, class: "rating-field" %>
+    <%= f.number_field :rating, class: "rating-field", required: true %>
   </div>
   <div class="actions">
     <%= f.submit %>

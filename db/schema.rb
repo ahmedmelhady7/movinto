@@ -11,11 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161104185329) do
+ActiveRecord::Schema.define(version: 20161104202936) do
 
   create_table "Actors_Movies", id: false, force: :cascade do |t|
     t.integer "actor_id", null: false
     t.integer "movie_id", null: false
+  end
+
+  create_table "Movies_Wishlists", id: false, force: :cascade do |t|
+    t.integer "wishlist_id", null: false
+    t.integer "movie_id",    null: false
   end
 
   create_table "actors", force: :cascade do |t|
@@ -87,5 +92,13 @@ ActiveRecord::Schema.define(version: 20161104185329) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+
+  create_table "wishlists", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "user_id"
+  end
+
+  add_index "wishlists", ["user_id"], name: "index_wishlists_on_user_id"
 
 end

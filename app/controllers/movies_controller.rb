@@ -2,11 +2,17 @@ class MoviesController < ApplicationController
   before_action :authenticate_user!
   before_action :is_admin, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_movie, only: [:show, :edit, :update, :destroy]
-
+  before_action :set_genres, only: [:index, :featured_movies, :opening_this_week]
   # GET /movies
   # GET /movies.json
   def index
-    @movies = Movie.all
+    if params[:movie] and params[:movie][:genre_id]
+      @movies = Movie.joins(:genres).where(:genres => {:id => params[:movie][:genre_id]})
+      @message = "Listing Movies with #{Genre.find(params[:movie][:genre_id]).name} Genre"
+    else
+      @movies = Movie.all
+      @message = "Listing Movies"
+    end
   end
 
   # GET /movies/1
@@ -24,10 +30,65 @@ class MoviesController < ApplicationController
   end
 
   def featured_movies
-    @movies = Movie.where('is_featured = ?', true)
-    if @movies.size==0
-      flash[:alert] = "No Featured movies right now."
-      redirect_to root_path
+    if params[:movie] and params[:movie][:genre_id]
+      @movies = Movie.joins(:genres).where(:genres => {:id => params[:movie][:genre_id]}).where('is_featured = ?', true)
+      @message = "Listing Featured Movies with #{Genre.find(params[:movie][:genre_id]).name} Genre"
+    else
+      @movies = Movie.where('is_featured = ?', true)
+      @message = "Listing Featured Movies"
+      if @movies.size==0
+        flash[:alert] = "No Featured movies right now."
+        redirect_to root_path
+      end
+    end
+  end
+  
+  def opening_this_week
+    if params[:movie] and params[:movie][:genre_id]
+      @movies = Movie.joins(:genres).where(:genres => {:id => params[:movie][:genre_id]}).where('released_at > ? AND released_at < ?', Date.today, Date.today + 7.days)
+      @message = "Listing Movies opening this week with #{Genre.find(params[:movie][:genre_id]).name} Genre"
+    else
+      @movies = Movie.where('released_at > ? AND released_at < ?', Date.today, Date.today + 7.days)
+      @message = "Listing Movies opening this week"
+      if @movies.size==0
+        flash[:alert] = "No movies opening this week."
+        redirect_to root_path
+      end
+    end
+  end
+  
+  def wishlist
+    @wishlist = current_user.wishlist
+    if @wishlist
+      @movies = current_user.wishlist.movies
+      if @movies.size==0
+        flash[:alert] = "No movies in your wishlist right now."
+        redirect_to root_path
+      end
+    else
+      @wishlist = Wishlist.new
+      @wishlist.user_id = current_user.id
+      @wishlist.save
+    end
+  end
+  
+  def add_to_wishlist()
+    @wishlist = current_user.wishlist
+    movie = Movie.find(params[:movie_id])
+    if @wishlist
+      if @wishlist.movies.include? movie
+        flash[:alert] = "you already added this movie before to your wishlist"
+        redirect_to wishlist_path
+      else
+        @wishlist.movies << movie
+        redirect_to wishlist_path
+      end
+    else
+      @wishlist = Wishlist.new
+      @wishlist.user_id = current_user.id
+      @wishlist.save
+      @wishlist << movie
+      redirect_to wishlist_path
     end
   end
   
@@ -77,6 +138,10 @@ class MoviesController < ApplicationController
       @movie = Movie.find(params[:id])
     end
 
+    def set_genres
+      @genres = Genre.all
+    end
+  
     # Never trust parameters from the scary internet, only allow the white list through.
     def movie_params
       params.require(:movie).permit(:name, :is_featured, :released_at, :average_rating)

@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :omniauth_providers => [:facebook]
   has_many :reviews, dependent: :destroy
+  has_one :wishlist
   
   def self.new_with_session(params, session)
     super.tap do |user|

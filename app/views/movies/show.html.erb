@@ -43,7 +43,7 @@
   </ul>
 </p>
 
-<% if @movie.reviews %>
+<% if @movie.reviews.size!=0 %>
   <p><strong>Reviews:</strong></p>
   <div class="reviews-list">
     <%= render @movie.reviews, movie: @movie %>
@@ -54,5 +54,19 @@
 <% if current_user.is_admin %>
   <%= link_to 'Edit', edit_movie_path(@movie) %> |
 <% end %>
-<%= link_to 'Back', movies_path %>
+<%= link_to 'Back', movies_path %> |
+<%= link_to 'Add To Wishlist', add_to_wishlist_path(:movie_id => @movie.id), :method=> :post %>
 
+	<!-- Load Facebook SDK for JavaScript -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=508672222662431";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-share-button" data-href="http://tnmjixicip.localtunnel.me/movies/<%= @movie.id %>" data-layout="button_count" data-size="small" data-mobile-iframe="true">
+  <a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Ftnmjixicip.localtunnel.me%2Fmovies%2F#{@movie.id}&amp;src=sdkpreparse">Share</a>
+</div>
