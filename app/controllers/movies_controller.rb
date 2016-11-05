@@ -59,6 +59,7 @@ class MoviesController < ApplicationController
   
   def wishlist
     @wishlist = current_user.wishlist
+    @message = "Listing Movies in your Wishlist"
     if @wishlist
       @movies = current_user.wishlist.movies
       if @movies.size==0
